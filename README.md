@@ -104,69 +104,6 @@ $ sudo docker stats
 CONTAINER ID   NAME           CPU %   MEM USAGE / LIMIT   MEM %   NET I/O         BLOCK I/O         PIDS
 4afa058af7a9   (?)-pgsql-dev  0.04%   21.23MiB / 128MiB   16.59%  1.17kB / 126B   1.47MB / 59.5MB   6
 ```
-
-### Managing the `apirest` Directory: Submodule vs Detached Repository
-
-To remove the default installation content in `./apirest/` directory with and install your repository instead, there are two alternatives for managing both the Platform and REST API repositories independently:
-
-#### 1. **GIT Sub-module**
-
-> Git commands can be executed **only from inside the container**.
-
-- Remove `apirest` from local and git cache:
-  ```bash
-  $ rm -rfv ./apirest/* ./apirest/.[!.]*$
-  $ git rm -r --cached apirest
-  $ git commit -m "maint: apirest directory and its default installation removed to detach from platform repository"
-  ```
-
-- Add the desired repository as a submodule:
-  ```bash
-  $ git submodule add git@[vcs]:[account]/[repository].git ./apirest
-  $ git commit -m "maint: apirest added as a git submodule"
-  ```
-
-- To update submodule contents:
-  ```bash
-  $ cd ./apirest
-  $ git pull origin main  # or desired branch
-  ```
-
-- To initialize/update submodules after `git clone`:
-  ```bash
-  $ git submodule update --init --recursive
-  ```
-<br>
-
-#### 2. **GIT Detached Repository (Recommended)**
-
-> Git commands can be executed **whether from inside the container or on the local machine**.
-
-- Remove `apirest` from local and git cache:
-  ```bash
-  $ git rm -r --cached -- "apirest/*" ":(exclude)apirest/.gitkeep"
-  $ git clean -fd
-  $ git reset --hard
-  $ git commit -m "Remove apirest directory and its default installation"
-  ```
-
-- Clone the desired repository as a detached repository:
-  ```bash
-  $ git clone git@[vcs]:[account]/[repository].git ./apirest
-  ```
-
-- The `apirest` directory is now an **independent repository**, not tracked as a submodule in your main repo. You can use `git` commands freely inside `apirest` from anywhere.
-<br>
-
-#### **Summary Table**
-
-| Approach         | Repo independence | Where to run git commands | Use case                        |
-|------------------|------------------|--------------------------|----------------------------------|
-| Submodule        | Tracked by main  | Inside container         | Main repo controls webapp version|
-| Detached (rec.)  | Fully independent| Local or container       | Maximum flexibility              |
-
-> **Note**: After new project cloned inside `./apirest`, consider adding `./apirest/.gitkeep` in it to prevent accidental tracking *(especially for detached repository)*.
-
 <br>
 
 ## Contributing
