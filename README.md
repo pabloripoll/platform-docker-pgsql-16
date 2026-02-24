@@ -10,7 +10,7 @@
 
 This Infrastructure Platform repository is designed for back-end projects and provides separate platforms:
 
-- **Core Database Platform:** Linux Alpine version 3.20 + Postgres 16
+- **Core Database Platform:** Linux Alpine version 3.20 + Postgres 16.4
 
 The goal of this repository is to offer developers a consistent framework for local development, mirroring real-world deployment scenarios. In production, the API may be deployed on an AWS EC2 / GCP GCE or instance or distributed across Kubernetes pods, while the database would reside on an AWS RDS instance. thus, network connection between platforms are decoupled.
 
@@ -101,8 +101,8 @@ This is the overview of the estimated host machine consumption:
 ```
 $ sudo docker stats
 
-CONTAINER ID   NAME           CPU %   MEM USAGE / LIMIT   MEM %   NET I/O         BLOCK I/O         PIDS
-4afa058af7a9   (?)-pgsql-dev  0.04%   21.23MiB / 128MiB   16.59%  1.17kB / 126B   1.47MB / 59.5MB   6
+CONTAINER ID   NAME           CPU %   MEM USAGE / LIMIT    MEM %   NET I/O         BLOCK I/O         PIDS
+4afa058af7a9   (?)-pgsql-dev  0.04%   21.23MiB  / 128MiB   16.59%  1.17kB / 126B   1.47MB / 59.5MB   6
 ```
 <br>
 
